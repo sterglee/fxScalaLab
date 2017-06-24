@@ -244,7 +244,6 @@ public class fxScalaLabController {
 
      System.out.println("EJML Interpreter created");
             
-     fxeditor.setText("Type your ScalaLab code, then double click to execute it -- Only this operation is supported in this first version of fxScalaLab! ");
         
        
                 
@@ -268,7 +267,13 @@ public class fxScalaLabController {
          // set both System.out and System.err to that stream
  System.setOut(consoleStream);
  System.setErr(consoleStream);
-         
+            
+ 
+ 
+ System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it -- Only this operation is supported in this first version of fxScalaLab! \n\n");
+ 
+ 
+
      
       
     }
