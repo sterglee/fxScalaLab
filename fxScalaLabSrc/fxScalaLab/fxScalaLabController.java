@@ -3,8 +3,6 @@ package fxScalaLab;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
-import java.util.Vector;
-import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -13,13 +11,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.web.HTMLEditor;
-import javax.swing.JTextArea;
-import scala.tools.nsc.Settings;
 
 import scalaExec.Interpreter.GlobalValues;
 
-  
 
 public class fxScalaLabController {
   
@@ -321,24 +315,27 @@ public class fxScalaLabController {
  // get the text of the current line (the line over which the caret is placed)
    public  String  getCurrentLine() {
        
-       int caretpos = fxeditor.getCaretPosition()-1;       // the caret's current position
+       int caretpos = fxeditor.getCaretPosition();       // the caret's current position
        String text = fxeditor.getText();
+          int textlen=text.length();
+    
+           if (caretpos == textlen) caretpos--;
        
+   //     System.out.println("caretpos = "+caretpos);
+     
        if (text.charAt(caretpos) == '\n' && caretpos > 0)
            caretpos--;
        
        int startpos = caretpos;
-       
        while (text.charAt(startpos)!='\n' && startpos > 0)
            startpos--;
        
-       int textlen=text.length();
-       int endpos = caretpos;
-       while (text.charAt(endpos)!='\n' && endpos < textlen-1)
+          int endpos = caretpos;
+       while (text.charAt(endpos)!= '\n' && endpos < textlen-1)
            endpos++;
-       
-       //System.out.println("startpos = "+startpos+", endpos = "+endpos);
-       String currentLineStr = fxeditor.getText(startpos, endpos);
+    
+     // System.out.println("startpos = "+startpos+", endpos = "+endpos);
+       String currentLineStr = fxeditor.getText(startpos, endpos+1);
        
        return currentLineStr;   // return the string of the current line
    }
