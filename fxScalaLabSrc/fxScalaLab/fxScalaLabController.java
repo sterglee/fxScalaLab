@@ -11,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.web.HTMLEditor;
 import javax.swing.JTextArea;
 import scala.tools.nsc.Settings;
@@ -270,8 +272,9 @@ public class fxScalaLabController {
             
  
  
- System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it -- Only this operation is supported in this first version of fxScalaLab! \n\n");
+ System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it \n-- Only this operation is supported in this first version of fxScalaLab! \n\n");
  
+ System.out.println("\n// F6 executes selected text or current line \n\n");
  
 
      
@@ -301,7 +304,58 @@ public class fxScalaLabController {
         
     }
 
+    
+// get the selected text if a selection exists, else the current line
+   public  String   getSelectedTextOrCurrentLine() {
+       String selectedTextOrCurrentLine = fxeditor.getSelectedText();
+       if (selectedTextOrCurrentLine==null)
+           selectedTextOrCurrentLine = getCurrentLine();
+       else
+           if (selectedTextOrCurrentLine.length()==0)
+           selectedTextOrCurrentLine = getCurrentLine();
 
+       return selectedTextOrCurrentLine;
+   }
+
+   
+ // get the text of the current line (the line over which the caret is placed)
+   public  String  getCurrentLine() {
+       
+       int caretpos = fxeditor.getCaretPosition()-1;       // the caret's current position
+       String text = fxeditor.getText();
+       
+       if (text.charAt(caretpos) == '\n' && caretpos > 0)
+           caretpos--;
+       
+       int startpos = caretpos;
+       
+       while (text.charAt(startpos)!='\n' && startpos > 0)
+           startpos--;
+       
+       int textlen=text.length();
+       int endpos = caretpos;
+       while (text.charAt(endpos)!='\n' && endpos < textlen-1)
+           endpos++;
+       
+       //System.out.println("startpos = "+startpos+", endpos = "+endpos);
+       String currentLineStr = fxeditor.getText(startpos, endpos);
+       
+       return currentLineStr;   // return the string of the current line
+   }
+
+
+
+    @FXML
+    void editorKeyPressed(KeyEvent event) {
+
+        if (event.getCode()== KeyCode.F6) {
+            String selectedTextOrCurrentLine = getSelectedTextOrCurrentLine();
+            System.out.println(selectedTextOrCurrentLine);
+             System.out.println(GlobalValues.globalInterpreter.interpret(selectedTextOrCurrentLine));
+     
+        }
+    }
+    
     @FXML
     void editorMouseClicked(MouseEvent event) {
         if (event.getClickCount() == 2) {

@@ -51,4 +51,8 @@ https://smile.amazon.com/Scientific-Computing-ScalaLab-Java-Platform/dp/36598459
 ## `ScalaLab most useful commands`
 
 
-`Currently you can execute the code within the textarea with double-clicking within the text area. Gradually, we will add a full set of functionality.`
+`Currently you can execute the whole code within the textarea with double-clicking within the text area.`
+
+`The selected text or the current line can be executed with F6.`
+
+`Gradually, we will add a full set of functionality.`

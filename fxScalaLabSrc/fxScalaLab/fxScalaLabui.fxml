@@ -40,7 +40,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TextArea fx:id="fxeditor" onMouseClicked="#editorMouseClicked" prefHeight="200.0" prefWidth="590.0" />
+                  <TextArea fx:id="fxeditor" onKeyPressed="#editorKeyPressed" onMouseClicked="#editorMouseClicked" prefHeight="200.0" prefWidth="590.0" />
                </children>
             </AnchorPane>
         </content>
