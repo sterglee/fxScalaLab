@@ -1,8 +1,15 @@
 package fxScalaLab;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.scene.input.MouseEvent;
 
@@ -11,11 +18,105 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 
 import scalaExec.Interpreter.GlobalValues;
 
 
 public class fxScalaLabController {
+    
+    @FXML
+    private MenuItem openFile;
+
+    
+    @FXML
+    private MenuItem saveFile;
+
+           
+    @FXML
+    private TextArea fxeditor;
+
+    
+    @FXML
+    private TextArea outputTextArea;
+
+    
+    @FXML
+    private MenuItem ejmlInterpreter;
+
+    @FXML
+    void initEJMLInterpreter(ActionEvent event) {
+        
+    }
+
+      @FXML
+    void onFileOpen(ActionEvent event) {
+          FileChooser fileChooser = new FileChooser();
+          fileChooser.setTitle("Select File to open");
+          int bufSize = 1000;
+          char [] buf = new char[bufSize];
+          fileChooser.setInitialDirectory(new File("."));
+          StringBuilder sb = new StringBuilder();
+          File file = fileChooser.showOpenDialog(fxeditor.getScene().getWindow());
+          
+          if (file != null)  {
+              
+               FileReader fr = null;
+            
+                int nrread;
+                       try {
+                           fr = new FileReader(file);
+                       } catch (FileNotFoundException ex) {
+                           Logger.getLogger(fxScalaLabController.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+              try {
+                  while ( (nrread = fr.read(buf)) != -1)
+                  {
+                      sb.append(buf);
+                  }
+              } catch (IOException ex) {
+                  Logger.getLogger(fxScalaLabController.class.getName()).log(Level.SEVERE, null, ex);
+              }
+              fxeditor.setText(sb.toString());
+ 
+      }
+    }
+    
+
+      @FXML
+    void onFileSave(ActionEvent event) {
+          FileChooser fileChooser = new FileChooser();
+          fileChooser.setTitle("Select File to saver to");
+          int bufSize = 1000;
+          char [] buf = new char[bufSize];
+          fileChooser.setInitialDirectory(new File("."));
+          StringBuilder sb = new StringBuilder();
+        
+          File file = fileChooser.showSaveDialog(fxeditor.getScene().getWindow());
+          
+          if (file != null)  {
+              
+               FileWriter fw = null;
+            
+                   try {
+                       fw = new FileWriter(file);
+                   
+                   } catch (IOException ex) {
+                       Logger.getLogger(fxScalaLabController.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+              try {
+                  fw.write(fxeditor.getText());
+                  fw.close();
+              } catch (IOException ex) {
+                  Logger.getLogger(fxScalaLabController.class.getName()).log(Level.SEVERE, null, ex);
+              }
+ 
+      }
+    }
+    
+
+ 
+ 
   
     public static PrintStream consoleStream;
 
@@ -266,7 +367,7 @@ public class fxScalaLabController {
             
  
  
- System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it \n-- Only this operation is supported in this first version of fxScalaLab! \n\n");
+ System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it \n\n");
  
  System.out.println("\n// F6 executes selected text or current line \n\n");
  
@@ -281,23 +382,6 @@ public class fxScalaLabController {
         outputTextArea.appendText(str);
         
       }
-        
-    @FXML
-    private TextArea fxeditor;
-
-    
-    @FXML
-    private TextArea outputTextArea;
-
-    
-    @FXML
-    private MenuItem ejmlInterpreter;
-
-    @FXML
-    void initEJMLInterpreter(ActionEvent event) {
-        
-    }
-
     
 // get the selected text if a selection exists, else the current line
    public  String   getSelectedTextOrCurrentLine() {
@@ -347,8 +431,8 @@ public class fxScalaLabController {
 
         if (event.getCode()== KeyCode.F6) {
             String selectedTextOrCurrentLine = getSelectedTextOrCurrentLine();
-            System.out.println(selectedTextOrCurrentLine);
-             System.out.println(GlobalValues.globalInterpreter.interpret(selectedTextOrCurrentLine));
+            fxExecTask fxtask = new fxExecTask(selectedTextOrCurrentLine);
+            GlobalValues.execService.execute(fxtask);
      
         }
     }
