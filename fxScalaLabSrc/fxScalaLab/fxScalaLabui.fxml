@@ -7,13 +7,15 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1600.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxScalaLab.fxScalaLabController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxScalaLab.fxScalaLabController">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="openFile" mnemonicParsing="false" onAction="#onFileOpen" text="Open" />
+                  <MenuItem fx:id="saveFile" mnemonicParsing="false" onAction="#onFileSave" text="Save" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -28,7 +30,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Scala Interpreter">
               <items>
-                <MenuItem fx:id="ejmlInterpreter" mnemonicParsing="false" onAction="#initEJMLInterpreter" text="EJML" />
+                <MenuItem fx:id="resetInterpreter" mnemonicParsing="false" onAction="#initInterpreter" text="Reset Interpreter" />
               </items>
             </Menu>
         </menus>
@@ -36,15 +38,15 @@
             <Cursor fx:constant="W_RESIZE" />
          </cursor>
       </MenuBar>
-      <ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1600.0">
+      <ScrollPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0">
         <content>
-          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="1600.0">
+          <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0">
                <children>
                   <TextArea fx:id="fxeditor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#editorKeyPressed" onMouseClicked="#editorMouseClicked" prefHeight="1200.0" prefWidth="1600.0" />
                </children>
             </AnchorPane>
         </content>
       </ScrollPane>
-      <TextArea fx:id="outputTextArea" prefHeight="200.0" prefWidth="200.0" />
+      <TextArea fx:id="outputTextArea" prefHeight="400.0" prefWidth="1000.0" />
    </children>
 </VBox>

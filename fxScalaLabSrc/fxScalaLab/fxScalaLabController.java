@@ -42,13 +42,29 @@ public class fxScalaLabController {
 
     
     @FXML
-    private MenuItem ejmlInterpreter;
+    private MenuItem resetInterpreter;
 
     @FXML
-    void initEJMLInterpreter(ActionEvent event) {
-        
+    void initInterpreter(ActionEvent event) {
+      initEJMLInterpreter();
     }
 
+    void initEJMLInterpreter() {
+        
+     scalaExec.gui.scalalabConsole sc =     new  scalaExec.gui.scalalabConsole();
+   
+     GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "/");
+    
+     sc.mkPaths();
+             
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings);
+ 
+     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
+
+     System.out.println("EJML Interpreter created");
+            
+    }
+    
       @FXML
     void onFileOpen(ActionEvent event) {
           FileChooser fileChooser = new FileChooser();
@@ -329,21 +345,8 @@ public class fxScalaLabController {
       
     public fxScalaLabController() {
 
-     scalaExec.gui.scalalabConsole sc =     new  scalaExec.gui.scalalabConsole();
-   
-     GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "/");
-    
-     sc.mkPaths();
-             
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings);
- 
-     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
-
-     System.out.println("EJML Interpreter created");
-            
-        
+     initEJMLInterpreter();
        
-                
     }
 
     public void initialize() {
@@ -367,9 +370,9 @@ public class fxScalaLabController {
             
  
  
- System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it \n\n");
- 
- System.out.println("\n// F6 executes selected text or current line \n\n");
+ System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it ");
+ System.out.println("\n// F6 executes selected text or current line ");
+ System.out.println("\n// F5 clears this output area ");
  
 
      
@@ -429,11 +432,15 @@ public class fxScalaLabController {
     @FXML
     void editorKeyPressed(KeyEvent event) {
 
-        if (event.getCode()== KeyCode.F6) {
+        KeyCode  eventKeyCode = event.getCode();
+        
+        if (eventKeyCode == KeyCode.F6) {
             String selectedTextOrCurrentLine = getSelectedTextOrCurrentLine();
             fxExecTask fxtask = new fxExecTask(selectedTextOrCurrentLine);
             GlobalValues.execService.execute(fxtask);
-     
+        }
+        else if (eventKeyCode == KeyCode.F5) {
+            outputTextArea.clear();
         }
     }
     
