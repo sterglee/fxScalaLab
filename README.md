@@ -19,7 +19,7 @@
 
 `Run the fxScalaLab with: java -jar fxScalaLab.jar`
 
-## `ScalaLab most useful commands`
+## `fxScalaLab most useful commands`
 
 
 `Currently you can execute the whole code within the editing text area with double-clicking within the text area.`
