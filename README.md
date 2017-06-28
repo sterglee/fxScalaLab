@@ -15,7 +15,6 @@
 
 `To install and execute fxScalaLab, download the .zip , and unzip it.  `
 
-`The .zip download contains both the sources and all the relevant libraries to build  ScalaLab with sbt.`
 
 `Run the fxScalaLab with: java -jar fxScalaLab.jar`
 
