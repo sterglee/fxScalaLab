@@ -44,7 +44,7 @@ https://smile.amazon.com/Scientific-Computing-ScalaLab-Java-Platform/dp/36598459
 
 `To install and execute fxScalaLab, download the .zip , and unzip it.  `
 
-`The .zip download contains both the sources and all the relevant libraries to build  ScalaLab with sbt.`
+`The .zip download contains both the sources and all the relevant libraries to build  ScalaLab with Netbeans.`
 
 `Run the fxScalaLab with: java -jar fxScalaLab.jar`
 
