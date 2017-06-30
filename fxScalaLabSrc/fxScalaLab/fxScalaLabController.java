@@ -18,7 +18,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+
+import org.fxmisc.richtext.CodeArea;
+
 
 import scalaExec.Interpreter.GlobalValues;
 
@@ -34,7 +38,7 @@ public class fxScalaLabController {
 
            
     @FXML
-    private TextArea fxeditor;
+    private CodeArea fxeditor;
 
     
     @FXML
@@ -93,7 +97,7 @@ public class fxScalaLabController {
               } catch (IOException ex) {
                   Logger.getLogger(fxScalaLabController.class.getName()).log(Level.SEVERE, null, ex);
               }
-              fxeditor.setText(sb.toString());
+              fxeditor.replaceText(sb.toString());
  
       }
     }
@@ -404,7 +408,7 @@ public class fxScalaLabController {
        
        int caretpos = fxeditor.getCaretPosition();       // the caret's current position
        String text = fxeditor.getText();
-          int textlen=text.length();
+       int textlen=text.length();
     
            if (caretpos == textlen) caretpos--;
        
@@ -450,6 +454,7 @@ public class fxScalaLabController {
             String currentLine = fxeditor.getText();
             System.out.println(GlobalValues.globalInterpreter.interpret(currentLine));
         }
+        
  //System.out.println(GlobalValues.globalInterpreter.interpret("var a = 7; var b=10; println(\"a+b\")").toString());
    
     }
