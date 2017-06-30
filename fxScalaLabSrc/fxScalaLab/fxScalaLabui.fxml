@@ -9,6 +9,12 @@
 
 <?import org.fxmisc.richtext.CodeArea?> 
 
+<?import org.fxmisc.flowless.VirtualizedScrollPane?>
+<?import org.fxmisc.richtext.LineNumberFactory?>
+<?import org.fxmisc.richtext.model.StyleSpans?>
+<?import org.fxmisc.richtext.model.StyleSpansBuilder?>
+
+
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxScalaLab.fxScalaLabController">
    <children>
       <MenuBar>
@@ -44,7 +50,7 @@
         <content>
           <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="800.0">
                <children>
-                  <CodeArea fx:id="fxeditor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#editorKeyPressed" onMouseClicked="#editorMouseClicked" prefHeight="1200.0" prefWidth="1600.0" />
+                  <CodeArea fx:id="fxeditor"  onKeyPressed="#editorKeyPressed" onMouseClicked="#editorMouseClicked" prefHeight="1200.0" prefWidth="1600.0" />
                </children>
             </AnchorPane>
         </content>
