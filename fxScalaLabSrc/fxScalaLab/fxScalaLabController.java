@@ -31,6 +31,7 @@ import scalaExec.Interpreter.GlobalValues;
 
 
 public class fxScalaLabController {
+    scalaExec.gui.scalalabConsole global_sc=null;
     
     @FXML
     private MenuItem openFile;
@@ -54,8 +55,45 @@ public class fxScalaLabController {
     @FXML
     void initInterpreter(ActionEvent event) {
       initEJMLInterpreter();
+ 
     }
 
+    
+    @FXML
+    void MTJInterpreter(ActionEvent event) {
+  
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings);
+ 
+     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsMTJScala);   // interpret the basic imports
+
+        
+     System.out.println("MTJ  Interpreter created");
+    }
+    
+    
+    
+    @FXML
+    void ApacheCommonsInterpreter(ActionEvent event) {
+  
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings);
+ 
+     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsCommonMathsScala);   // interpret the basic imports
+
+     
+     System.out.println("Apache Commons  Interpreter created");
+    }
+    
+    
+    @FXML
+    void JBLASInterpreter(ActionEvent event) {
+  
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings);
+ 
+     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsJBLASScala);   // interpret the basic imports
+
+     System.out.println("JBLAS  Interpreter created");
+    }
+    
     void initEJMLInterpreter() {
         
      scalaExec.gui.scalalabConsole sc =     new  scalaExec.gui.scalalabConsole();
@@ -68,6 +106,8 @@ public class fxScalaLabController {
  
      scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
 
+     if (global_sc==null)  global_sc=sc;
+     
      System.out.println("EJML Interpreter created");
             
     }
@@ -338,6 +378,37 @@ public class fxScalaLabController {
             "import _root_.scalaSci.EJML.Mat._ ; \n"+ 
             "import _root_.scalaSci.EJML.BMat._ ; \n"+ 
              "import _root_.scalaSci.EJML.StaticMathsEJML._ ; \n";
+    
+    static public    String  basicImportsMTJScala = 
+            commonImports+
+           "import _root_.scalaSci.MTJ.Mat ; \n"+ 
+           "import _root_.scalaSci.MTJ.Mat._ ; \n"+ 
+           "import _root_.scalaSci.MTJ.StaticMathsMTJ._ ; \n";
+           
+    static public    String  basicImportsJBLASScala = 
+            commonImports+
+            "import _root_.scalaSci.JBLAS.Mat; \n"+
+            "import _root_.scalaSci.JBLAS.Mat._; \n"+
+            "import _root_.scalaSci.JBLAS.StaticMathsJBLAS._\n";
+                    
+  
+    static public    String  basicImportsCommonMathsScala = 
+            commonImports+
+           "import _root_.scalaSci.CommonMaths.Mat ; \n"+ 
+           "import _root_.scalaSci.CommonMaths.Mat._ ; \n"+ 
+           "import _root_.scalaSci.CommonMaths.StaticMathsCommonMaths._ ; \n";
+                    
+    static public    String  basicImportsEigenScala = 
+            commonImports+
+           "import _root_.scalaSci.jeigen.Mat ; \n"+ 
+           "import _root_.scalaSci.jeigen.StaticMathsEigen._; \n";
+             
+    
+    static public    String  basicImportsD2Das1DScala = 
+            commonImports+
+           "import _root_.scalaSci.D2Das1DMat ; \n"+ 
+           "import _root_.scalaSci.StaticMathsD2Das1D._; \n";
+             
      
   
      URL  jarPathOfClass(String className) {
@@ -377,7 +448,8 @@ public class fxScalaLabController {
                 }
             });
 
-         // set both System.out and System.err to that stream
+ 
+        // set both System.out and System.err to that stream
  System.setOut(consoleStream);
  System.setErr(consoleStream);
             

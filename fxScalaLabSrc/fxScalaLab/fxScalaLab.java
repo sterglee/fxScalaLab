@@ -1,5 +1,6 @@
 package fxScalaLab;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +25,7 @@ public class fxScalaLab extends Application {
       stage.setTitle("ScalaLab"); // displayed in window's title bar
       stage.setScene(scene); // attach scene to stage
       
+            
       stage.show(); // display the stage
        
    }

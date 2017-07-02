@@ -38,7 +38,11 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Scala Interpreter">
               <items>
-                <MenuItem fx:id="resetInterpreter" mnemonicParsing="false" onAction="#initInterpreter" text="Reset Interpreter" />
+                <MenuItem fx:id="resetInterpreter" mnemonicParsing="false" onAction="#initInterpreter" text="EJML Interpreter" />
+                <MenuItem fx:id="MTJInterpreter" mnemonicParsing="false" onAction="#MTJInterpreter" text="MTJ Interpreter" />
+                <MenuItem fx:id="ApacheCommonsInterpreter" mnemonicParsing="false" onAction="#ApacheCommonsInterpreter" text="Apache Common Maths Interpreter" />
+                <MenuItem fx:id="JBLASInterpreter" mnemonicParsing="false" onAction="#JBLASInterpreter" text="JBLAS Interpreter" />
+              
               </items>
             </Menu>
         </menus>
