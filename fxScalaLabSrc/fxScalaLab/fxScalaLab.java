@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static org.fxmisc.richtext.demo.JavaKeywords.*;
+import org.fxmisc.richtext.demo.JavaKeywordsAsync;
+
 
 
 public class fxScalaLab extends Application {
@@ -16,6 +19,8 @@ public class fxScalaLab extends Application {
          FXMLLoader.load(getClass().getResource("fxScalaLabui.fxml"));
 
       Scene scene = new Scene(root); // attach scene graph to scene
+         scene.getStylesheets().add(JavaKeywordsAsync.class.getResource("java-keywords.css").toExternalForm());
+   
       stage.setTitle("ScalaLab"); // displayed in window's title bar
       stage.setScene(scene); // attach scene to stage
       

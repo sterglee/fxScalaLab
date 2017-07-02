@@ -21,7 +21,10 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
+import static org.fxmisc.richtext.demo.JavaKeywords.*;
+
 import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 
 import scalaExec.Interpreter.GlobalValues;
@@ -355,7 +358,13 @@ public class fxScalaLabController {
 
     public void initialize() {
       
+   fxeditor.setParagraphGraphicFactory(LineNumberFactory.get(fxeditor));
 
+        fxeditor.richChanges()
+                .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
+                .subscribe(change -> {
+                    fxeditor.setStyleSpans(0, computeHighlighting(fxeditor.getText()));
+                });
        
          // define a PrintStream that sends its bytes to the output text area
          consoleStream = new PrintStream( new OutputStream () {
