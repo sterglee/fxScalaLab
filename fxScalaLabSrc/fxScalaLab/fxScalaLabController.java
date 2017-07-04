@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,7 +63,7 @@ public class fxScalaLabController {
     @FXML
     void MTJInterpreter(ActionEvent event) {
   
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings);
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
  
      scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsMTJScala);   // interpret the basic imports
 
@@ -75,7 +76,7 @@ public class fxScalaLabController {
     @FXML
     void ApacheCommonsInterpreter(ActionEvent event) {
   
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings);
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
  
      scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsCommonMathsScala);   // interpret the basic imports
 
@@ -87,7 +88,7 @@ public class fxScalaLabController {
     @FXML
     void JBLASInterpreter(ActionEvent event) {
   
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings);
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
  
      scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsJBLASScala);   // interpret the basic imports
 
@@ -102,13 +103,27 @@ public class fxScalaLabController {
     
      sc.mkPaths();
              
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings);
+     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings); // new PrintWriter(outconsoleStream));
  
      scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
 
      if (global_sc==null)  global_sc=sc;
-     
+    
+      
+    
+        outconsoleStream = new OutputStream () {
+            @Override
+                public void write(int b)  {}   // never called
+                public void write(  byte []  b, int off, int len )
+                {
+                    String outStr = new String(b, off, len);
+                    outputTextArea.appendText(outStr);   // append the output to the text area
+                }
+            };
+
+ 
      System.out.println("EJML Interpreter created");
+    
             
     }
     
@@ -182,7 +197,7 @@ public class fxScalaLabController {
  
   
     public static PrintStream consoleStream;
-
+    public static OutputStream outconsoleStream;
      
    // common imports used independently of the Matrix type that ScalaLab uses
     static public String commonImports = 
@@ -437,8 +452,8 @@ public class fxScalaLabController {
                     fxeditor.setStyleSpans(0, computeHighlighting(fxeditor.getText()));
                 });
        
-         // define a PrintStream that sends its bytes to the output text area
-         consoleStream = new PrintStream( new OutputStream () {
+
+        consoleStream = new PrintStream( new OutputStream () {
             @Override
                 public void write(int b)  {}   // never called
                 public void write(  byte []  b, int off, int len )
@@ -453,6 +468,8 @@ public class fxScalaLabController {
  System.setOut(consoleStream);
  System.setErr(consoleStream);
             
+  scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
+  scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
  
  
  System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it ");
