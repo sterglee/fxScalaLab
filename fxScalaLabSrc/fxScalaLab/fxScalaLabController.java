@@ -100,11 +100,22 @@ public class fxScalaLabController {
     
     void initEJMLInterpreter() {
         
-     scalaExec.gui.scalalabConsole sc =     new  scalaExec.gui.scalalabConsole();
-   
+        boolean      hostIsUnix = true;
+         if (File.pathSeparatorChar==';')
+              hostIsUnix = false;  // Windows host
+          
+             if (hostIsUnix) {    
+
      GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "/");
     
-  
+                }
+             else  {
+                   GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "");
+ 
+             }
+                 
+      scalaExec.gui.scalalabConsole sc =     new  scalaExec.gui.scalalabConsole();
+
      sc.mkPaths();
              
        String fxScalaLabLibPath = GlobalValues.jarFilePath;
