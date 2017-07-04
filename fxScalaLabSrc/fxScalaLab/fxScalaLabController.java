@@ -26,6 +26,7 @@ import static org.fxmisc.richtext.demo.JavaKeywords.*;
 
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import scala.tools.nsc.Settings;
 
 
 import scalaExec.Interpreter.GlobalValues;
@@ -33,6 +34,8 @@ import scalaExec.Interpreter.GlobalValues;
 
 public class fxScalaLabController {
     scalaExec.gui.scalalabConsole global_sc=null;
+    
+    Settings scalaSettings;
     
     @FXML
     private MenuItem openFile;
@@ -101,8 +104,34 @@ public class fxScalaLabController {
    
      GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "/");
     
+  
      sc.mkPaths();
              
+       String fxScalaLabLibPath = GlobalValues.jarFilePath;
+                  // remove jar file name from the path name
+                 int dotIndex = fxScalaLabLibPath.indexOf(".");
+                 int lastPos = dotIndex;
+                 while (fxScalaLabLibPath.charAt(lastPos)!='/' && fxScalaLabLibPath.charAt(lastPos)!='\\'  && lastPos>0)
+                             lastPos--;
+                fxScalaLabLibPath = fxScalaLabLibPath.substring(0, lastPos);
+      
+       //  any .jar file in the defaultToolboxes folder is automatically appended to classpath 
+          String defaultToolboxesFolder = fxScalaLabLibPath.replace("lib", "defaultToolboxes");
+          System.out.println("appending toolboxes of DefaultToolboxes folder:  "+defaultToolboxesFolder);
+     
+              File [] toolboxesFolderFiles = (new java.io.File(defaultToolboxesFolder)).listFiles();  // get the list of files at the default toolboxes folder
+          if (toolboxesFolderFiles!=null) {  // DefaultToolboxes folder not empty
+           int numFiles = toolboxesFolderFiles.length; 
+           for (int f=0; f < numFiles;  f++) {
+               String currentFileName = toolboxesFolderFiles[f].getAbsolutePath();
+           
+                  if (currentFileName.endsWith(".jar")) {
+               sc.scalaSettings.classpath().append(currentFileName);
+              }  // endsWith("jar")
+            }   // for all files of then DefaultToolboxes folder
+          }   // DefaultToolboxes folder not empty
+          
+            
      scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings); // new PrintWriter(outconsoleStream));
  
      scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports

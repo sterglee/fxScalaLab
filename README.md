@@ -46,7 +46,7 @@ https://smile.amazon.com/Scientific-Computing-ScalaLab-Java-Platform/dp/36598459
 
 `The .zip download contains both the sources and all the relevant libraries to build  ScalaLab with Netbeans.`
 
-`Run the fxScalaLab with: java -jar fxScalaLab.jar`
+`Run the corresponding for your platform startup script, e.g. Linux64RunfxScalaLabServerJVM.sh for Linux.`
 
 ## `ScalaLab most useful commands`
 
