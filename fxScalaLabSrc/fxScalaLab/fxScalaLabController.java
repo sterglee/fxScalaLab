@@ -19,7 +19,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 import static org.fxmisc.richtext.demo.JavaKeywords.*;
@@ -29,7 +28,8 @@ import org.fxmisc.richtext.LineNumberFactory;
 import scala.tools.nsc.Settings;
 
 
-import scalaExec.Interpreter.GlobalValues;
+import static fxScalaLab.InterpreterImports.*;
+import static fxScalaLab.Globals.*;
 
 
 public class fxScalaLabController {
@@ -66,9 +66,9 @@ public class fxScalaLabController {
     @FXML
     void MTJInterpreter(ActionEvent event) {
   
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
+     globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
  
-     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsMTJScala);   // interpret the basic imports
+     globalInterpreter.interpret(basicImportsMTJScala);   // interpret the basic imports
 
         
      System.out.println("MTJ  Interpreter created");
@@ -79,9 +79,9 @@ public class fxScalaLabController {
     @FXML
     void ApacheCommonsInterpreter(ActionEvent event) {
   
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
+     globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
  
-     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsCommonMathsScala);   // interpret the basic imports
+     globalInterpreter.interpret(basicImportsCommonMathsScala);   // interpret the basic imports
 
      
      System.out.println("Apache Commons  Interpreter created");
@@ -91,9 +91,9 @@ public class fxScalaLabController {
     @FXML
     void JBLASInterpreter(ActionEvent event) {
   
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
+     globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
  
-     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsJBLASScala);   // interpret the basic imports
+     globalInterpreter.interpret(basicImportsJBLASScala);   // interpret the basic imports
 
      System.out.println("JBLAS  Interpreter created");
     }
@@ -106,11 +106,11 @@ public class fxScalaLabController {
           
              if (hostIsUnix) {    
 
-     GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "/");
+     jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "/");
     
                 }
              else  {
-                   GlobalValues.jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "");
+                   jarFilePath =  jarPathOfClass("scalaExec.Interpreter.GlobalValues").toString().replace("file:/", "");
  
              }
                  
@@ -118,7 +118,7 @@ public class fxScalaLabController {
 
      sc.mkPaths();
              
-       String fxScalaLabLibPath = GlobalValues.jarFilePath;
+       String fxScalaLabLibPath = jarFilePath;
                   // remove jar file name from the path name
                  int dotIndex = fxScalaLabLibPath.indexOf(".");
                  int lastPos = dotIndex;
@@ -143,9 +143,9 @@ public class fxScalaLabController {
           }   // DefaultToolboxes folder not empty
           
             
-     scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings); // new PrintWriter(outconsoleStream));
+     globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(sc.scalaSettings); // new PrintWriter(outconsoleStream));
  
-     scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
+     globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
 
      if (global_sc==null)  global_sc=sc;
     
@@ -239,231 +239,6 @@ public class fxScalaLabController {
     public static PrintStream consoleStream;
     public static OutputStream outconsoleStream;
      
-   // common imports used independently of the Matrix type that ScalaLab uses
-    static public String commonImports = 
-           "import _root_.java.awt.Color ; \n" +   // Java standard UI and graphics support
-            "import scalaExec.Interpreter.importHelper._;\n"+
-            "import java.lang.Math._; \n"+
-            
-            "import scala.concurrent.Future\n" +
-            "import scala.concurrent.ExecutionContext.Implicits.global\n"+
-
-            "import _root_.scalaSci.NROps._\n"+
-            "import _root_.scalaSci.ILapack._ \n"+
- 
-             "import _root_.scalaSci.MTJ.BandMat\n"+
-            
-            "import _root_.scalaSci.math.array.DoubleArray._ \n"+
-
-            "import _root_.scalaExec.Interpreter.MatlabConnection._ \n"+
-            "import _root_.scalaExec.Interpreter.MatlabComplex \n"+
-            
-            "import _root_.scalaExec.Interpreter.SciLabConnection._ \n"+
-            
-            
-          "import javax.swing._; \n"+   // Java standard UI and graphics support
-         "import javax.swing.event._; \n"+
-         
-            "import java.text.DecimalFormat \n"+
-            "import System.out._ \n"+
-            
-            "import _root_.cfor.CforSyntax._\n"+
-             "import _root_.cifor.CiforSyntax._\n"+
-          
-            "import _root_.Do._ \n"+
-            
-            "import _root_.scalaSci.math.plot.canvas._; \n"+
-            "import _root_.scalaSci.math.plot.plotObjects._; \n"+
-            "import _root_.scalaSci.math.plot.plots._; \n"+
-            "import _root_.scalaSci.math.plot.plot._;\n "+     // plotting routines
-            "import _root_.scalaSci.math.plot.plotTypes._;\n "+     // plotting routines
-            "import _root_.scalaSci.math.plot.PlotController;\n"+
-
-     //       "import  scalaSci.math.plot.SyntaxHelper._; \n"+
-            
-            "import _root_.scalaSci.math.plot.ComplexArrayPlots._; \n"+
-          
-            "import _root_.scalaSci.Complex;\n"+
-            "import _root_.scalaSci.Complex._; \n"+
-            
-            
-            "import _root_.scalaSci.ComplexMatrix;\n"+
-            "import _root_.scalaSci.ComplexMatrix._; \n"+
-            
-            "import _root_.scalaSci.math.plot.namedPlotsObj._;\n"+
-            "import _root_.scalaSci.Vec ; \n "+
-            "import _root_.scalaSci.Vec._ ; \n "+
-            "import _root_.scalaSci.Matrix ; \n"+
-            "import _root_.scalaSci.Matrix._ ; \n"+
-            "import _root_.scalaSci.Sparse; \n"+
-            "import _root_.scalaSci.Sparse._ ; \n"+
-            "import _root_.scalaSci.CCMatrix ; \n"+
-            "import _root_.scalaSci.CCMatrix._ ; \n"+
-            "import _root_.java.util.Random; \n"+
-
-            "import _root_.scalaSci.RichNumber; \n "+
-            "import _root_.scalaSci.RichDouble2DArray; \n "+
-            "import _root_.scalaSci.RichDouble2DArray._; \n "+
-            "import _root_.scalaSci.RichDouble1DArray ; \n "+
-            "import _root_.scalaSci.RichDouble1DArray._ ; \n "+
-            
-            "import _root_.scalaSci.RD2D \n "+
-            "import _root_.scalaSci.RD1D \n "+
-            "import _root_.scalaSci.D1D \n "+
-            "import _root_.scalaSci.D2D \n "+
-            "import _root_.scalaSci.RD2D \n "+
-            
-            "import _root_.scalaSci.MatlabRange._\n"+
-            
-            "import _root_.scalaSci.StaticScalaSciGlobalExt ; \n "+
-            
-            "import  _root_.scalaSciCommands.BasicCommands \n  "+// + // support for ScalaSci's console commands
-            "import  _root_.scalaSciCommands.BasicCommands._; \n  "+// + // support for ScalaSci's console commands
-            
-            "import _root_.scalaSciCommands.FileOps \n"+
-            "import _root_.scalaSciCommands.FileOps._ \n"+
-            "import _root_.scalaSci.math.io.MatIO._ ; \n"+  // Matlab .mat compatibility
-            "import _root_.scalaSci.math.io.ioUtils._ ; \n"+  //   load / save ASCII files etc.
-            
-             "import  _root_.JFplot._;\n "+
-             "import _root_.JFplot.jFigure._;\n"+
-             
-            "import _root_.scalaSci.math.plot.PlotFunctional._ \n"+
-            "import _root_.scalaSci.math.plot.PlotAdaptiveFunctional._ \n";  
-    
-    
-       
-    static public String warmUpGSLScript = 
-            " org.bytedeco.javacpp.gsl.gsl_ieee_env_setup ";    // this dummy code snippet warms up GSL interface properly
-  
-    /*
-              "import _root_.scalaSci.math.plot.plots._; \n"+
-            "import _root_.scalaSci.math.plot.plot._;\n "+     // plotting routines
-  
-    */
-    // these are intended for standalone applications that make use of the ScalaLab libraries
-    static public String standAloneImports = 
-           "import _root_.java.awt.Color ; \n" +   // Java standard UI and graphics support
-            "import scalaExec.Interpreter.importHelper._;\n"+
-            "import java.lang.Math._; \n"+
-
-            "import _root_.scalaSci.NROps._\n"+
-            "import _root_.scalaSci.ILapack._ \n"+
- 
-             "import _root_.scalaSci.MTJ.BandMat\n"+
-
-          "import javax.swing._; \n"+   // Java standard UI and graphics support
-         "import javax.swing.event._; \n"+
-         
-            "import java.text.DecimalFormat \n"+
-            "import System.out._ \n"+
-            
-            "import _root_.scalaSci.math.plot.canvas._; \n"+
-            "import _root_.scalaSci.math.plot.plotObjects._; \n"+
-            "import _root_.scalaSci.math.plot.plotTypes._;\n "+     // plotting routines
-            "import _root_.scalaSci.math.plot.PlotFunctional._;\n"+
-            "import _root_.scalaSci.math.plot.PlotAdaptiveFunctional._;\n"+
-            "import _root_.scalaSci.math.plot.PlotController;\n"+
-
-            "import  scalaSci.math.plot.SyntaxHelper._; \n"+
-            
-            "import _root_.scalaSci.math.plot.ComplexArrayPlots._; \n"+
-          
-           
-            "import _root_.scalaSci.Complex;\n"+
-            "import _root_.scalaSci.Complex._; \n"+
-            
-            "import _root_.scalaSci.ComplexMatrix;\n"+
-            "import _root_.scalaSci.ComplexMatrix._; \n"+
-            
-            "import _root_.scalaSci.math.plot.namedPlotsObj._;\n"+
-            "import _root_.scalaSci.Vec ; \n "+
-            "import _root_.scalaSci.Vec._ ; \n "+
-            "import _root_.scalaSci.Matrix ; \n"+
-            "import _root_.scalaSci.Matrix._ ; \n"+
-            "import _root_.scalaSci.Sparse; \n"+
-            "import _root_.scalaSci.Sparse._ ; \n"+
-            "import _root_.scalaSci.CCMatrix ; \n"+
-            "import _root_.scalaSci.CCMatrix._ ; \n"+
-            "import _root_.java.util.Random; \n"+
-
-            "import _root_.scalaSci.RichNumber; \n "+
-            "import _root_.scalaSci.RichDouble2DArray; \n "+
-            "import _root_.scalaSci.RichDouble2DArray._; \n "+
-            "import _root_.scalaSci.RichDouble1DArray ; \n "+
-            "import _root_.scalaSci.RichDouble1DArray._ ; \n "+
-            
-            "import _root_.scalaSci.RD2D \n "+
-            "import _root_.scalaSci.RD1D \n "+
-            "import _root_.scalaSci.D1D \n "+
-            "import _root_.scalaSci.D2D \n "+
-            "import _root_.scalaSci.RD2D \n "+
-            
-            "import _root_.scalaSci.MatlabRange._\n"+
-            
-            "import _root_.scalaSci.StaticScalaSciGlobalExt ; \n "+
-            
-            "import  _root_.scalaSciCommands.BasicCommands \n  "+// + // support for ScalaSci's console commands
-            "import  _root_.scalaSciCommands.BasicCommands._; \n  "+// + // support for ScalaSci's console commands
-            
-            "import _root_.scalaSciCommands.FileOps \n"+
-            "import _root_.scalaSciCommands.FileOps._ \n"+
-            "import _root_.scalaSci.math.io.MatIO._ ; \n"+  // Matlab .mat compatibility
-            "import _root_.scalaSci.math.io.ioUtils._ ; \n"+  //   load / save ASCII files etc.
-            
-             "import  _root_.JFplot._;\n "+
-             "import _root_.JFplot.jFigure._;\n"+
-             
-             "import scala.util.control.Breaks._; \n"+
-
-    //        "import scalaSci.JBLAS.JBLASNativeJavaInterface._\n"+
-            "import  _root_.scalaSci.Bench.bench \n"+
-            
-            
-            "import _root_.scalaSci.Mat ; \n"+ 
-            "import _root_.scalaSci.Mat._ ; \n"+ 
-            "import _root_.scalaSci.StaticMaths._ ; \n";
-            
-            
-          
-    static public    String  basicImportsEJMLScala = 
-            commonImports+"\n"+
-            "import _root_.scalaSci.EJML.Mat ; \n"+ 
-            "import _root_.scalaSci.EJML.BMat ; \n"+ 
-            "import _root_.scalaSci.EJML.Mat._ ; \n"+ 
-            "import _root_.scalaSci.EJML.BMat._ ; \n"+ 
-             "import _root_.scalaSci.EJML.StaticMathsEJML._ ; \n";
-    
-    static public    String  basicImportsMTJScala = 
-            commonImports+
-           "import _root_.scalaSci.MTJ.Mat ; \n"+ 
-           "import _root_.scalaSci.MTJ.Mat._ ; \n"+ 
-           "import _root_.scalaSci.MTJ.StaticMathsMTJ._ ; \n";
-           
-    static public    String  basicImportsJBLASScala = 
-            commonImports+
-            "import _root_.scalaSci.JBLAS.Mat; \n"+
-            "import _root_.scalaSci.JBLAS.Mat._; \n"+
-            "import _root_.scalaSci.JBLAS.StaticMathsJBLAS._\n";
-                    
-  
-    static public    String  basicImportsCommonMathsScala = 
-            commonImports+
-           "import _root_.scalaSci.CommonMaths.Mat ; \n"+ 
-           "import _root_.scalaSci.CommonMaths.Mat._ ; \n"+ 
-           "import _root_.scalaSci.CommonMaths.StaticMathsCommonMaths._ ; \n";
-                    
-    static public    String  basicImportsEigenScala = 
-            commonImports+
-           "import _root_.scalaSci.jeigen.Mat ; \n"+ 
-           "import _root_.scalaSci.jeigen.StaticMathsEigen._; \n";
-             
-    
-    static public    String  basicImportsD2Das1DScala = 
-            commonImports+
-           "import _root_.scalaSci.D2Das1DMat ; \n"+ 
-           "import _root_.scalaSci.StaticMathsD2Das1D._; \n";
-             
      
   
      URL  jarPathOfClass(String className) {
@@ -508,8 +283,8 @@ public class fxScalaLabController {
  System.setOut(consoleStream);
  System.setErr(consoleStream);
             
-  scalaExec.Interpreter.GlobalValues.globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
-  scalaExec.Interpreter.GlobalValues.globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
+  globalInterpreter =  new  scala.tools.nsc.interpreter.IMain(global_sc.scalaSettings, new PrintWriter(outconsoleStream));
+  globalInterpreter.interpret(basicImportsEJMLScala);   // interpret the basic imports
  
  
  System.out.println("// Type your ScalaLab code, then double click on the upper text area to execute it ");
@@ -579,7 +354,7 @@ public class fxScalaLabController {
         if (eventKeyCode == KeyCode.F6) {
             String selectedTextOrCurrentLine = getSelectedTextOrCurrentLine();
             fxExecTask fxtask = new fxExecTask(selectedTextOrCurrentLine);
-            GlobalValues.execService.execute(fxtask);
+            execService.execute(fxtask);
         }
         else if (eventKeyCode == KeyCode.F5) {
             outputTextArea.clear();
@@ -590,7 +365,7 @@ public class fxScalaLabController {
     void editorMouseClicked(MouseEvent event) {
         if (event.getClickCount() == 2) {
             String currentLine = fxeditor.getText();
-            System.out.println(GlobalValues.globalInterpreter.interpret(currentLine));
+            System.out.println(globalInterpreter.interpret(currentLine));
         }
         
  //System.out.println(GlobalValues.globalInterpreter.interpret("var a = 7; var b=10; println(\"a+b\")").toString());

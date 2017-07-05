@@ -1,6 +1,7 @@
 package fxScalaLab;
 
 
+import static fxScalaLab.Globals.buildTitle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,14 +35,6 @@ public class fxScalaLab extends Application {
        
    }
 
- static public String buildTitle() {
-     String buildDate = "4 July 2017"; 
-      String mainFrameTitle =        "fxScalaLab:    Scala "+scala.tools.nsc.Properties.versionString()+",  library type: "+ GlobalValues.interpreterType()+ 
-                   ",   "+System.getProperty("java.vm.name", "").toLowerCase()+",  "+ System.getProperty("os.name", "").toLowerCase()+
-                   "  "+ System.getProperty("os.arch", "").toLowerCase()+" ,   "+ buildDate;
-                   
-      return mainFrameTitle;
-}
 
    public static void main(String[] args) {
 
